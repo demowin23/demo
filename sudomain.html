@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Wayback CDX API — Demo (HTML + JS thuần)</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial;
+        line-height: 1.4;
+        margin: 18px;
+        color: #111;
+      }
+      h1 {
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+        font-weight: 600;
+      }
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 6px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+      textarea {
+        width: 100%;
+        height: 160px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+      }
+      button {
+        margin-top: 12px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 0;
+        background: #1366d6;
+        color: white;
+        cursor: pointer;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+      .col {
+        flex: 1;
+      }
+      .hint {
+        font-size: 13px;
+        color: #666;
+        margin-top: 6px;
+      }
+      pre {
+        background: #f7f7f8;
+        padding: 12px;
+        border-radius: 8px;
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+      }
+      th,
+      td {
+        border: 1px solid #eee;
+        padding: 6px;
+        text-align: left;
+        font-size: 13px;
+      }
+      .small {
+        font-size: 13px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wayback CDX API — Demo (HTML + JS thuần)</h1>
+    <div class="small">
+      Nhập các tham số rồi bấm <strong>Run query</strong>. Nếu bị lỗi CORS, thử
+      bật "Use CORS proxy".
+    </div>
+
+    <label>API URL (base)</label>
+    <input
+      id="baseUrl"
+      type="text"
+      value="https://web.archive.org/cdx/search/cdx"
+    />
+
+    <div class="row">
+      <div class="col">
+        <label>url (ví dụ: uk.com)</label>
+        <input id="url" type="text" value="uk.com" />
+      </div>
+      <div class="col">
+        <label>matchType</label>
+        <select id="matchType">
+          <option value="domain">domain</option>
+          <option value="host">host</option>
+          <option value="prefix">prefix</option>
+          <option value="exact">exact</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label>from (YYYY or YYYYMMDD)</label>
+        <input id="from" type="text" placeholder="2020" />
+      </div>
+      <div class="col">
+        <label>to (YYYY or YYYYMMDD)</label>
+        <input id="to" type="text" placeholder="2020" />
+      </div>
+    </div>
+
+    <label>fl (fields) — ví dụ: original,timestamp,statuscode</label>
+    <input id="fl" type="text" value="original,timestamp,statuscode" />
+
+    <div class="row">
+      <div style="flex: 0 0 150px">
+        <label>output</label>
+        <select id="output">
+          <option value="json">json</option>
+          <option value="txt">txt</option>
+          <option value="jsonl">jsonl</option>
+        </select>
+      </div>
+      <div style="flex: 0 0 120px">
+        <label>collapse</label>
+        <input id="collapse" type="text" placeholder="urlkey" />
+      </div>
+      <div style="flex: 0 0 120px">
+        <label>pageSize</label>
+        <input id="pageSize" type="text" value="10" />
+      </div>
+    </div>
+
+    <label>offset</label>
+    <input id="offset" type="text" value="0" />
+
+    <label>
+      <input id="useProxy" type="checkbox" /> Use CORS proxy (AllOrigins)
+    </label>
+    <div class="hint">
+      Nếu trình duyệt báo lỗi CORS, bật tùy chọn này. Proxy public có thể chậm
+      hoặc giới hạn.
+    </div>
+
+    <button id="runBtn">Run query</button>
+
+    <h3>Kết quả</h3>
+    <div id="status" class="small">Chưa chạy.</div>
+    <pre id="outputBox"></pre>
+
+    <script>
+      document.getElementById("runBtn").addEventListener("click", async () => {
+        const base = document.getElementById("baseUrl").value.trim();
+        const params = new URLSearchParams();
+        const url = document.getElementById("url").value.trim();
+        if (!url) {
+          alert("Vui lòng nhập url");
+          return;
+        }
+        params.set("url", url);
+
+        const matchType = document.getElementById("matchType").value;
+        if (matchType) params.set("matchType", matchType);
+
+        const from = document.getElementById("from").value.trim();
+        if (from) params.set("from", from);
+
+        const to = document.getElementById("to").value.trim();
+        if (to) params.set("to", to);
+
+        const fl = document.getElementById("fl").value.trim();
+        if (fl) params.set("fl", fl);
+
+        const output = document.getElementById("output").value;
+        if (output) params.set("output", output);
+
+        const collapse = document.getElementById("collapse").value.trim();
+        if (collapse) params.set("collapse", collapse);
+
+        const pageSize = document.getElementById("pageSize").value.trim();
+        if (pageSize) params.set("pageSize", pageSize);
+
+        const offset = document.getElementById("offset").value.trim();
+        if (offset) params.set("offset", offset);
+
+        let requestUrl = base + "?" + params.toString();
+        const useProxy = document.getElementById("useProxy").checked;
+        if (useProxy) {
+          // AllOrigins raw proxy (public). Nếu bị giới hạn có thể dùng proxy riêng.
+          requestUrl =
+            "https://api.allorigins.win/raw?url=" +
+            encodeURIComponent(requestUrl);
+        }
+
+        const statusEl = document.getElementById("status");
+        const out = document.getElementById("outputBox");
+        statusEl.textContent = "Đang gọi: " + requestUrl;
+        out.textContent = "";
+
+        try {
+          const res = await fetch(requestUrl, { method: "GET" });
+          if (!res.ok) {
+            statusEl.textContent =
+              "HTTP error: " + res.status + " " + res.statusText;
+            return;
+          }
+
+          if (output === "json") {
+            // Some CDX endpoints return newline-delimited JSON or array-of-arrays.
+            const txt = await res.text();
+            // Thử parse JSON, nếu không thì hiển thị raw text
+            try {
+              const data = JSON.parse(txt);
+              statusEl.textContent =
+                "OK — JSON parsed, items: " +
+                (Array.isArray(data) ? data.length : "unknown");
+              out.textContent = JSON.stringify(data, null, 2);
+            } catch (e) {
+              statusEl.textContent =
+                "OK — JSON parse failed, hiển thị raw text";
+              out.textContent = txt;
+            }
+          } else {
+            // txt hoặc jsonl: hiển thị raw text
+            const text = await res.text();
+            statusEl.textContent = "OK — raw text received";
+            // Nếu output=txt và fl=original, mỗi dòng là 1 URL. Hiển thị table nhỏ nếu có thể.
+            if (document.getElementById("output").value === "txt") {
+              out.textContent = text || "(No results)";
+            } else {
+              out.textContent = text;
+            }
+          }
+        } catch (err) {
+          // Có thể bị CORS hoặc mạng
+          statusEl.textContent = "Lỗi: " + err.message;
+          out.textContent = [
+            "Lỗi khi gọi API. Thường là do CORS (trình duyệt chặn).",
+            'Hãy thử: 1) bật "Use CORS proxy", 2) gọi từ server (node/python) hoặc 3) dùng tool như curl/postman.',
+            "Chi tiết lỗi: " + (err && err.stack ? err.stack : err),
+          ].join("\\n\\n");
+        }
+      });
+    </script>
+  </body>
+</html>

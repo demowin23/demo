@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tool dò domain lv3 từ wayback machine by maxroi dubua253k</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel: #121a2b;
+        --text: #e6ecff;
+        --muted: #9bb0d1;
+        --brand: #6ea8ff;
+        --brand2: #7cffc1;
+        --danger: #ff6b6b;
+        --border: rgba(255, 255, 255, 0.08);
+        --accent: linear-gradient(135deg, var(--brand), var(--brand2));
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(
+            1200px 600px at 10% -10%,
+            rgba(126, 255, 193, 0.08),
+            transparent
+          ),
+          radial-gradient(
+            900px 500px at 90% -10%,
+            rgba(110, 168, 255, 0.08),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        font: 14px/1.55 system-ui, Segoe UI, Roboto, Arial;
+      }
+      a {
+        color: var(--brand);
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 12px auto;
+        padding: 0 16px;
+        gap: 12px;
+        align-items: start;
+      }
+      .title {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        grid-column: 1 / -1;
+      }
+      .logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        background: var(--accent);
+        display: grid;
+        place-items: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      }
+      .logo b {
+        color: #001b2f;
+      }
+      h1 {
+        font-size: 30px;
+        margin: 0;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-top: 18px;
+      }
+      .card {
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.015)
+        );
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 16px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+      }
+      label {
+        font-weight: 600;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 6px;
+        display: block;
+      }
+      input,
+      select,
+      button,
+      textarea {
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #0f1525;
+        color: var(--text);
+      }
+      input,
+      select {
+        padding: 10px 12px;
+        width: 100%;
+      }
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      button {
+        padding: 10px 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #00192f;
+        border: none;
+      }
+      .btn-ghost {
+        background: transparent;
+      }
+      .btn-danger {
+        background: var(--danger);
+        border: none;
+        color: white;
+      }
+
+      .status {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .log {
+        background: #0f1525;
+        border: 1px dashed var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        height: 160px;
+        overflow: auto;
+        white-space: pre-wrap;
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-top: 6px;
+      }
+      .tab {
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: #0f1525;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .tab.active {
+        background: var(--accent);
+        color: #00192f;
+        border: none;
+      }
+      textarea {
+        width: 100%;
+        min-height: 220px;
+        padding: 12px;
+        resize: vertical;
+      }
+
+      .pill {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 10px;
+        background: #0f1525;
+        color: var(--muted);
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 820px) {
+        .grid2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Floating donate button */
+      .donate {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 50;
+      }
+      .donate-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 99px;
+        background: var(--accent);
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+      .donate-btn span {
+        font-size: 22px;
+      }
+      .donate-btn:hover + .tip {
+        opacity: 1;
+        transform: translateY(-6px);
+      }
+      .tip {
+        position: absolute;
+        right: 70px;
+        bottom: 18px;
+        background: #0f1525;
+        border: 1px solid var(--border);
+        padding: 8px 12px;
+        border-radius: 10px;
+        color: var(--text);
+        opacity: 0;
+        transform: translateY(0);
+        transition: 0.2s;
+      }
+
+      /* Modal */
+      dialog {
+        border: none;
+        border-radius: 16px;
+        padding: 0;
+        background: transparent;
+      }
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.55);
+      }
+      .modal {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 16px;
+        max-width: 420px;
+      }
+      .modal h3 {
+        margin: 0 0 8px;
+      }
+      .qr {
+        border-radius: 12px;
+        background: #fff;
+        padding: 12px;
+        display: inline-block;
+      }
+      .copyRow {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .copyRow input {
+        flex: 1;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 84px;
+        transform: translateX(-50%);
+        background: #0f1525;
+        border: 1px solid var(--border);
+        padding: 10px 14px;
+        border-radius: 10px;
+        opacity: 0;
+        transition: 0.25s;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      /* How-to & Donate side-by-side */
+      .guideWrap {
+        margin-top: 6px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        align-items: start;
+        grid-column: 1;
+      }
+      @media (max-width: 900px) {
+        .guideWrap {
+          grid-template-columns: 1fr;
+        }
+      }
+      .howto {
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        padding: 12px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 171, 64, 0.18),
+          rgba(255, 255, 255, 0.03)
+        );
+      }
+      .howto h3 {
+        margin: 0 0 6px;
+      }
+      .howto ol {
+        margin: 8px 0 0 18px;
+      }
+      .howto a {
+        color: #ffd48a;
+        text-decoration: underline;
+      }
+      .donate-hero {
+        border-radius: 14px;
+        padding: 12px;
+        border: 1px solid var(--border);
+        background: linear-gradient(
+          135deg,
+          rgba(110, 168, 255, 0.18),
+          rgba(124, 255, 193, 0.14)
+        );
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .donate-hero .qrbox {
+        background: #fff;
+        padding: 12px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        display: inline-block;
+      }
+      .donate-hero img {
+        max-width: 280px;
+        border-radius: 8px;
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .qrimg-big {
+        max-width: 280px;
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+      .qrimg-modal {
+        max-width: 260px;
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+      }
+      .addrLine {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+        margin-top: 12px;
+      }
+      .addrLine input {
+        flex: 1;
+        font-weight: 700;
+      }
+      .highlight {
+        font-weight: 800;
+        background: var(--accent);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .shine {
+        font-size: 18px;
+        font-weight: 800;
+        margin-bottom: 6px;
+        display: inline-block;
+        background: linear-gradient(90deg, #ffffff, #ffe9a8, #ffffff);
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shineMove 2s ease-in-out infinite;
+      }
+      @keyframes shineMove {
+        0%,
+        85% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: 0 0;
+        }
+      }
+      .wrap .grid {
+        grid-column: 2;
+        margin-top: 0;
+      }
+      /* mạnh hơn cho ánh sáng chữ */
+      .shine {
+        font-size: 18px;
+        font-weight: 900;
+        margin-bottom: 6px;
+        display: inline-block;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.25) 0%,
+          #fff 20%,
+          #ffd36e 35%,
+          #fff 50%,
+          rgba(255, 255, 255, 0.25) 100%
+        );
+        background-size: 320% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 14px rgba(255, 240, 180, 0.8),
+          0 0 28px rgba(255, 170, 0, 0.5);
+        animation: shineMove 2s linear infinite;
+      }
+      @keyframes shineMove {
+        0% {
+          background-position: 320% 0;
+        }
+        100% {
+          background-position: 0 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="title">
+        <div class="logo"><b>WB</b></div>
+        <div>
+          <h1>Tool dò domain lv3 từ wayback machine by MAXROI DUBUA253K</h1>
+          <div class="status">TELE: @Takoju</div>
+          <div class="status" id="status">Sẵn sàng</div>
+        </div>
+        <span class="pill" id="statpill">URL: 0 • LV3: 0</span>
+      </div>
+
+      <div class="guideWrap">
+        <div class="howto">
+          <h3>Hướng dẫn nhanh</h3>
+          <ol>
+            <li>
+              <b>Bước 1:</b> fake VPN Việt Nam (Cam bị chặn) – có thể dùng Urban
+              VPN extension
+              <a
+                href="https://chromewebstore.google.com/detail/urban-vpn-proxy/eppiocemhmnlbhjplcgkofciiegomcon"
+                target="_blank"
+                rel="noopener"
+                >tại đây</a
+              >.
+            </li>
+            <li>
+              <b>Bước 2:</b> Tải
+              <a
+                href="https://chromewebstore.google.com/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf"
+                target="_blank"
+                rel="noopener"
+                >Allow CORS: Access-Control</a
+              >
+              → bật extension (bật ON là
+              <span class="highlight">màu cam</span>).
+              <span style="color: #ff6b6b; font-weight: bold">QUAN TRỌNG:</span>
+              Phải bật extension này để tránh lỗi CORS!
+            </li>
+            <li>
+              <b>Bước 3:</b> Chọn đuôi và lọc.
+              <i>Trỏ lên ủng hộ mình ly cf nhé ^^</i>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="row">
+            <div>
+              <label>Suffix/Domain gốc (ví dụ: uk.com)</label>
+              <input id="domain" value="uk.com" />
+            </div>
+            <div>
+              <label>Từ năm</label>
+              <input id="from" type="number" value="2010" />
+            </div>
+            <div>
+              <label>Đến năm</label>
+              <input id="to" type="number" value="2025" />
+            </div>
+            <div>
+              <label>Page size</label>
+              <input id="pagesize" type="number" value="10" />
+            </div>
+            <div>
+              <label>Max offset/năm</label>
+              <input id="maxoff" type="number" value="1500" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="check">
+              <input id="clean" type="checkbox" checked />
+              <label for="clean">Làm sạch query (gỡ UTM, fbclid…)</label>
+            </div>
+            <div class="check">
+              <input id="ok200" type="checkbox" />
+              <label for="ok200">Chỉ HTTP 200</label>
+            </div>
+            <div class="check">
+              <input id="onlylv3" type="checkbox" checked />
+              <label for="onlylv3">Tự lọc subdomain → chỉ lấy domain LV3</label>
+            </div>
+          </div>
+          <div class="btns">
+            <button class="btn-primary" id="start">Bắt đầu</button>
+            <button class="btn-danger" id="stop" disabled>Dừng</button>
+            <button class="btn-ghost" id="download" disabled>
+              Tải .txt (URL)
+            </button>
+            <button class="btn-ghost" id="downloadLv3" disabled>
+              Tải .txt (Domain LV3)
+            </button>
+            <button class="btn-ghost" id="downloadHtml" disabled>
+              Tải HTML
+            </button>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <div class="card">
+            <div class="tabs">
+              <div class="tab active" data-tab="urls">URL thô</div>
+              <div class="tab" data-tab="lv3">Danh sách domain LV3</div>
+            </div>
+            <textarea id="out"></textarea>
+            <textarea id="outLv3" style="display: none"></textarea>
+          </div>
+          <div class="card">
+            <b>Log</b>
+            <div class="log" id="log"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donate floating button + tooltip -->
+    <div class="donate">
+      <button class="donate-btn" id="openDonate" title="Xin 1 ly cf ☕">
+        <span>☕</span>
+      </button>
+      <div class="tip">Xin 1 ly cf ☕</div>
+    </div>
+
+    <dialog id="donateDlg">
+      <div class="modal">
+        <h3>Ủng hộ nhà phát minh tool ❤</h3>
+        <div class="status">BSC (BNB Smart Chain) – BEP20</div>
+        <div class="qr">
+          <img
+            class="qrimg-modal"
+            src="https://i.ibb.co/p67jTYGt/QR-META.png"
+            alt="QR BEP-20"
+          />
+        </div>
+        <div class="copyRow">
+          <input
+            id="addr"
+            value="0xce08d7bc0394a9D676576F778d1Bf0A503c0bc73"
+            readonly
+          />
+          <button class="btn-primary" id="copyBtn">Copy</button>
+        </div>
+        <div class="btns" style="margin-top: 14px">
+          <button class="btn-ghost" id="closeDonate">Đóng</button>
+        </div>
+      </div>
+    </dialog>
+    <div class="toast" id="toast">Đã copy địa chỉ!</div>
+
+    <script>
+      // ===== Minimal QRCode generator (qrcode.js v1.0.0, trimmed) =====
+      /*! qrcode.js https://github.com/davidshimjs/qrcodejs */
+      !function(o){function t(o){this.mode=c.MODE_8BIT_BYTE,this.data=o}function e(o,t){this.typeNumber=o,this.errorCorrectLevel=t,this.modules=null,this.moduleCount=0,this.dataCache=null,this.dataList=[]}function r(o,t){if(void 0==o.length)throw new Error(o.length+"/"+t);for(var e=0;e<o.length&&0==o[e];)e++;this.num=Array(o.length-e+t);for(var r=0;r<o.length-e;r++)this.num[r]=o[r+e]}function n(o,t){this.totalCount=o,this.dataCount=t}function i(){var o=Array(0),t=0;this.getBuffer=function(){return o},this.getAt=function(t){return 1==(o[Math.floor(t/8)]>>>7-t%8&1)},this.put=function(t,e){for(var r=0;r<e;r++)this.putBit(1==(t>>>e-r-1&1))},this.putBit=function(e){t==o.length&&o.push(0),e&&(o[t>>>3]|=128>>>t%8),t++}}var s={L:1,M:0,Q:3,H:2},c={MODE_NUMBER:1,MODE_ALPHA_NUM:2,MODE_8BIT_BYTE:4},a={PATTERN_POSITION_TABLE:[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46]],G15:1335,G18:7973,G15_MASK:21522,getBCHTypeInfo:function(o){for(var t=o<<10;this.getBCHDigit(t)-this.getBCHDigit(this.G15)>=0;)t^=this.G15<<this.getBCHDigit(t)-this.getBCHDigit(this.G15);return(o<<10|t)^21522},getBCHTypeNumber:function(o){for(var t=o<<12;this.getBCHDigit(t)-this.getBCHDigit(this.G18)>=0;)t^=this.G18<<this.getBCHDigit(t)-this.getBCHDigit(this.G18);return o<<12|t},getBCHDigit:function(o){for(var t=0;0!=o;)t++,o>>>=1;return t},getPatternPosition:function(o){return this.PATTERN_POSITION_TABLE[o-1]},getMask:function(o,t){switch(o){case 0:return 0==(t.row+t.col)%2;case 1:return 0==t.row%2;case 2:return 0==t.col%3;case 3:return 0==(t.row+t.col)%3;case 4:return 0==(Math.floor(t.row/2)+Math.floor(t.col/3))%2;case 5:return 0==(t.row*t.col)%2+ (t.row*t.col)%3;case 6:return 0==((t.row*t.col)%3+(t.row+t.col)%2)%2;case 7:return 0==((t.row+t.col)%3+(t.row*t.col)%2)%2;default:throw new Error("bad maskPattern:"+o)}}};t.prototype={getLength:function(){return this.data.length},write:function(o){for(var t=0;t<this.data.length;t++)o.put(this.data.charCodeAt(t),8)}};var u={getRSBlocks:function(o,t){var e=function(o){switch(o){case 1:return 10;case 2:return 20;case 3:return 26;case 4:return 18;default:return 10}}(t);return[ new n(e, e-2) ]}};r.prototype={get:function(o){return this.num[o]},getLength:function(){return this.num.length},multiply:function(o){for(var t=Array(this.getLength()+o.getLength()-1),e=0;e<this.getLength();e++)for(var r=0;r<o.getLength();r++)t[e+r]^=e8[this.get(e)+o.get(r)];return new r(t,0)},mod:function(o){for(;this.getLength()-o.getLength()>=0;){var t=this.getLength()-o.getLength();for(var e=0;e<o.getLength();e++)this.num[e+t]^=o.get(e)}return this}},e.prototype={addData:function(o){this.dataList.push(new t(o)),this.dataCache=null},isDark:function(o,t){if(null==this.modules)throw new Error("QR not built");return this.modules[o][t]},getModuleCount:function(){return this.moduleCount},make:function(){this.typeNumber=2,this.dataCache=this.createData(this.typeNumber,this.errorCorrectLevel),this.moduleCount=25,this.modules=new Array(this.moduleCount);for(var o=0;o<this.moduleCount;o++){this.modules[o]=new Array(this.moduleCount);for(var t=0;t<this.moduleCount;t++)this.modules[o][t]=null}this.setupPositionProbePattern(0,0),this.setupPositionProbePattern(this.moduleCount-7,0),this.setupPositionProbePattern(0,this.moduleCount-7),this.mapData(this.dataCache,a.getMask(0,{row:0,col:0}))},setupPositionProbePattern:function(o,t){for(var e=-1;e<=7;e++)if(!(o+e<=-1||this.moduleCount<=o+e))for(var r=-1;r<=7;r++)t+r<=-1||this.moduleCount<=t+r||(this.modules[o+e][t+r]=e>=0&&e<=6&&(0==r||6==r)||r>=0&&r<=6&&(0==e||6==e)||e>=2&&e<=4&&r>=2&&r<=4)},mapData:function(o,t){for(var e=0,r=this.moduleCount-1,n=this.moduleCount-1;n>0;n-=2)for(6==n&&n--;;){for(var i=0;i<2;i++)if(null==this.modules[r][n-i]){var s=!1;e<o.length&&(s=1==(o[e>>>3]>>>7-e%8&1)),this.modules[r][n-i]=s,e++}if((r+=t?-1:1)<0||this.moduleCount<=r){r=t?0:this.moduleCount-1;break}}},createData:function(o,t){for(var e=new i,r=0;r<this.dataList.length;r++){var n=this.dataList[r];e.put(4,4),e.put(n.getLength(),8),n.write(e)}for(var s=u.getRSBlocks(o,t),c=0,a=0;a<s.length;a++)c+=s[a].dataCount;for(var l=new Array(c),h=0;h<this.dataList.length;h++){var f=this.dataList[h];for(f.getLength(),f.write(e),e.put(0,0);e.getBuffer().length<=c;)e.put(0,0);for(var d=0;d<c;d++)l[d]=255&e.getBuffer()[d]}return l}};var e8=function(){for(var o=new Array(256),t=1,e=0;e<256;e++)o[e]=t, t=t<<1^283*(t>>7);return o}();
+      window.QRCode=function(o){this._el=o};
+      QRCode.prototype.makeCode=function(text){this._el.innerHTML='';var qr=new e(2,s.M);qr.addData(text);qr.make();var m=qr.getModuleCount(),scl=6,qrEl=document.createElement('div');qrEl.style.width=qrEl.style.height=(m*scl)+'px';qrEl.style.background='#fff';for(var r=0;r<m;r++){for(var c=0;c<m;c++){var cell=document.createElement('div');cell.style.cssText='position:absolute;width:'+scl+'px;height:'+scl+'px;left:'+(c*scl)+'px;top:'+(r*scl)+'px;background:'+(qr.isDark(r,c)?'#000':'#fff');qrEl.appendChild(cell);} }
+      qrEl.style.position='relative';this._el.appendChild(qrEl)};
+      // ===== End QR =====
+    </script>
+
+    <script>
+      (() => {
+        const CDX = "https://web.archive.org/cdx/search/cdx"; // gọi trực tiếp
+        const out = document.getElementById("out");
+        const outLv3 = document.getElementById("outLv3");
+        const log = document.getElementById("log");
+        const statusEl = document.getElementById("status");
+        const pill = document.getElementById("statpill");
+        const btnStart = document.getElementById("start");
+        const btnStop = document.getElementById("stop");
+        const btnDl = document.getElementById("download");
+        const btnDlLv3 = document.getElementById("downloadLv3");
+        const btnHtml = document.getElementById("downloadHtml");
+        const tabs = document.querySelectorAll(".tab");
+
+        let stopFlag = false;
+        const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+        const logln = (s) => {
+          log.textContent += s + "\n";
+          log.scrollTop = log.scrollHeight;
+        };
+        const cleanURL = (u) => {
+          try {
+            const url = new URL(u);
+            const drop = new Set([
+              "ref",
+              "refid",
+              "refsrc",
+              "utm_source",
+              "utm_medium",
+              "utm_campaign",
+              "utm_term",
+              "utm_content",
+              "gclid",
+              "fbclid",
+              "mc_cid",
+              "mc_eid",
+            ]);
+            const params = [...url.searchParams.entries()].filter(
+              ([k]) => !drop.has(k.toLowerCase())
+            );
+            url.search = new URLSearchParams(params).toString();
+            url.hash = "";
+            url.hostname = url.hostname.toLowerCase();
+            return url.toString();
+          } catch {
+            return u;
+          }
+        };
+
+        // Trích domain LV3 theo suffix gốc. Nếu sâu hơn LV3, co về LV3 (ví dụ a.b.c.uk.com -> c.uk.com)
+        function toLv3(hostname, baseSuffix) {
+          hostname = hostname.toLowerCase();
+          if (!hostname.endsWith(baseSuffix)) return null; // chỉ lấy trong suffix
+          const hostParts = hostname.split(".");
+          const baseParts = baseSuffix.split(".");
+          if (hostParts.length <= baseParts.length) return null; // chính suffix, bỏ
+          const keep = baseParts.length + 1; // LV3 = 1 nhãn + suffix
+          return hostParts.slice(-keep).join(".");
+        }
+
+        async function fetchChunk(params, backoff = 5000, tries = 3) {
+          const qs = new URLSearchParams(params);
+          const url = CDX + "?" + qs.toString();
+          for (let i = 0; i < tries; i++) {
+            let controller = null;
+            let timeoutId = null;
+            try {
+              controller = new AbortController();
+              timeoutId = setTimeout(() => {
+                controller.abort();
+                logln(`  ⏰ Timeout sau 90s: ${url}`);
+              }, 90000); // Tăng timeout lên 90s
+
+              const r = await fetch(url, {
+                cache: "no-store",
+                signal: controller.signal,
+                headers: {
+                  Accept: "text/plain",
+                  "User-Agent":
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                },
+              });
+
+              clearTimeout(timeoutId);
+
+              if (!r.ok) {
+                if (r.status === 429) {
+                  logln(`  ⚠️ Rate limited, chờ ${backoff * 2}ms...`);
+                  await sleep(backoff * 2);
+                  continue;
+                }
+                throw new Error(`${r.status} ${r.statusText}`);
+              }
+
+              const txt = await r.text();
+              return txt.split(/\r?\n/).filter(Boolean);
+            } catch (e) {
+              if (timeoutId) clearTimeout(timeoutId);
+
+              if (e.name === "AbortError") {
+                logln(`  ⏰ Request bị hủy: ${url}`);
+              } else if (
+                e.name === "TypeError" &&
+                e.message.includes("Failed to fetch")
+              ) {
+                logln(
+                  `  🌐 Lỗi kết nối: ${url}\n    → Kiểm tra CORS extension và VPN`
+                );
+              } else {
+                logln(
+                  `  ! ${url}\n    → Retry ${i + 1}/${tries} vì: ${e.message}`
+                );
+              }
+
+              if (i < tries - 1) {
+                const waitTime = backoff * Math.pow(2, i); // Exponential backoff
+                logln(`  ⏳ Chờ ${waitTime}ms trước khi retry...`);
+                await sleep(waitTime);
+              }
+            }
+          }
+          logln(`  x Bỏ qua chunk sau ${tries} lần thử: ${url}`);
+          return [];
+        }
+
+        function updateStats(urlCount, lv3Count) {
+          pill.textContent = `URL: ${urlCount} • LV3: ${lv3Count}`;
+        }
+
+        async function run() {
+          stopFlag = false;
+          btnStart.disabled = true;
+          btnStop.disabled = false;
+          btnDl.disabled = true;
+          btnHtml.disabled = true;
+          btnDlLv3.disabled = true;
+          out.value = "";
+          outLv3.value = "";
+          log.textContent = "";
+          statusEl.textContent = "Đang chạy…";
+
+          const domain = document.getElementById("domain").value.trim();
+          const yFrom = +document.getElementById("from").value;
+          const yTo = +document.getElementById("to").value;
+          const pageSize = +document.getElementById("pagesize").value;
+          const maxOff = +document.getElementById("maxoff").value;
+          const clean = document.getElementById("clean").checked;
+          const ok200 = document.getElementById("ok200").checked;
+          const onlylv3 = document.getElementById("onlylv3").checked;
+
+          const uniqURL = new Set();
+          const uniqLv3 = new Set();
+
+          for (let y = yFrom; y <= yTo; y++) {
+            if (stopFlag) break;
+            logln(`[*] Năm ${y}…`);
+            statusEl.textContent = `Năm ${y}…`;
+            for (let off = 0; off <= maxOff; off += pageSize) {
+              if (stopFlag) break;
+              const params = {
+                url: domain,
+                matchType: "domain",
+                output: "txt",
+                fl: "original",
+                collapse: "urlkey",
+                from: y,
+                to: y,
+                pageSize: pageSize,
+                offset: off,
+              };
+              if (ok200) params.filter = "statuscode:200";
+              const lines = await fetchChunk(params);
+              if (!lines.length) {
+                logln(`  • Hết dữ liệu ở offset ${off}.`);
+                break;
+              }
+              for (const u of lines) {
+                const finalU = clean ? cleanURL(u) : u;
+                uniqURL.add(finalU);
+                try {
+                  const h = new URL(finalU).hostname;
+                  const lv3 = toLv3(h, domain);
+                  if (lv3) uniqLv3.add(lv3);
+                } catch {}
+              }
+              out.value = Array.from(uniqURL).sort().join("\n");
+              outLv3.value = Array.from(uniqLv3).sort().join("\n");
+              updateStats(uniqURL.size, uniqLv3.size);
+              logln(
+                `  • +${lines.length} URL @offset ${off} (tổng ≈ ${uniqURL.size}; LV3 ≈ ${uniqLv3.size})`
+              );
+              await sleep(2000); // Tăng delay để tránh rate limit
+            }
+          }
+          statusEl.textContent = `Xong. Tổng ${uniqURL.size} URL; ${uniqLv3.size} domain LV3.`;
+          btnStart.disabled = false;
+          btnStop.disabled = true;
+          btnDl.disabled = false;
+          btnHtml.disabled = false;
+          btnDlLv3.disabled = false;
+        }
+
+        // Tabs
+        tabs.forEach((t) =>
+          t.addEventListener("click", () => {
+            tabs.forEach((x) => x.classList.remove("active"));
+            t.classList.add("active");
+            const tab = t.getAttribute("data-tab");
+            if (tab === "urls") {
+              out.style.display = "block";
+              outLv3.style.display = "none";
+            } else {
+              out.style.display = "none";
+              outLv3.style.display = "block";
+            }
+          })
+        );
+
+        btnStart.onclick = run;
+        btnStop.onclick = () => {
+          stopFlag = true;
+          statusEl.textContent = "Đã yêu cầu dừng…";
+        };
+        btnDl.onclick = () =>
+          downloadText(out.value, `wayback_urls_${Date.now()}.txt`);
+        btnDlLv3.onclick = () =>
+          downloadText(outLv3.value, `domains_lv3_${Date.now()}.txt`);
+        btnHtml.onclick = () => {
+          const htmlContent = `<!doctype html><meta charset="utf-8"><title>Kết quả Wayback</title><h1>Kết quả</h1><h3>Domain LV3</h3><pre>${escapeHtml(
+            outLv3.value
+          )}</pre><h3>URL</h3><pre>${escapeHtml(out.value)}</pre>`;
+          const blob = new Blob([htmlContent], {
+            type: "text/html;charset=utf-8",
+          });
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = `wayback_results_${Date.now()}.html`;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        };
+
+        function downloadText(text, name) {
+          const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = name;
+          a.click();
+          URL.revokeObjectURL(a.href);
+        }
+        function escapeHtml(s) {
+          return s.replace(
+            /[&<>]/g,
+            (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])
+          );
+        }
+
+        // Donate modal & QR
+        const openD = document.getElementById("openDonate");
+        const dlg = document.getElementById("donateDlg");
+        const closeD = document.getElementById("closeDonate");
+        const addr = document.getElementById("addr");
+        const copyBtn = document.getElementById("copyBtn");
+        const toast = document.getElementById("toast");
+        function openDonate() {
+          dlg.showModal();
+        }
+        function closeDonate() {
+          dlg.close();
+        }
+        function copy() {
+          navigator.clipboard.writeText(addr.value).then(() => {
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 1200);
+          });
+        }
+        openD.addEventListener("click", openDonate);
+        closeD.addEventListener("click", closeDonate);
+        copyBtn.addEventListener("click", copy);
+      })();
+    </script>
+    <script>
+      (function () {
+        const toast = document.getElementById("toast");
+        const btn = document.getElementById("copy2");
+        const addr = document.getElementById("addr2");
+        if (btn && addr) {
+          btn.addEventListener("click", () => {
+            navigator.clipboard.writeText(addr.value).then(() => {
+              toast.classList.add("show");
+              setTimeout(() => toast.classList.remove("show"), 1200);
+            });
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

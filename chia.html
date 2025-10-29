@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Domain List Splitter Tool</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 300;
+      }
+
+      .header p {
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      .content {
+        padding: 40px;
+      }
+
+      .input-section {
+        margin-bottom: 40px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #333;
+        font-size: 1.1em;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 200px;
+        max-height: 500px;
+        padding: 15px;
+        border: 2px solid #e1e5e9;
+        border-radius: 10px;
+        font-size: 14px;
+        font-family: "Courier New", monospace;
+        resize: none;
+        transition: border-color 0.3s ease, height 0.2s ease;
+        overflow-y: auto;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #4facfe;
+        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(79, 172, 254, 0.3);
+      }
+
+      .btn-secondary {
+        background: #f8f9fa;
+        color: #495057;
+        border: 2px solid #e9ecef;
+      }
+
+      .btn-secondary:hover {
+        background: #e9ecef;
+        transform: translateY(-1px);
+      }
+
+      .btn-copy {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        font-size: 14px;
+        padding: 8px 15px;
+      }
+
+      .btn-copy:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+      }
+
+      .results-section {
+        margin-top: 40px;
+      }
+
+      .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      .results-title {
+        font-size: 1.5em;
+        color: #333;
+        font-weight: 600;
+      }
+
+      .domain-count {
+        background: #4facfe;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 600;
+      }
+
+      .group-container {
+        margin-bottom: 30px;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .group-header {
+        background: #f8f9fa;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .group-title {
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .group-count {
+        background: #6c757d;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+
+      .group-content {
+        padding: 20px;
+        background: white;
+      }
+
+      .domain-list {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        max-height: 300px;
+        overflow-y: auto;
+        font-family: "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.4;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      .copy-status {
+        margin-top: 10px;
+        padding: 8px 15px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        font-weight: 600;
+        display: none;
+      }
+
+      .copy-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .copy-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .stats {
+        background: #e3f2fd;
+        border: 1px solid #bbdefb;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 2em;
+        font-weight: 700;
+        color: #1976d2;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        color: #666;
+        font-weight: 500;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          margin: 10px;
+          border-radius: 10px;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        .header {
+          padding: 20px;
+        }
+
+        .header h1 {
+          font-size: 2em;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .results-header {
+          flex-direction: column;
+          gap: 10px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🔗 Domain List Splitter</h1>
+        <p>Chia danh sách domain thành các nhóm 1000 domain và copy dễ dàng</p>
+      </div>
+
+      <div class="content">
+        <div class="input-section">
+          <div class="input-group">
+            <label for="domainInput"
+              >📝 Nhập danh sách domain (mỗi domain một dòng):</label
+            >
+            <textarea
+              id="domainInput"
+              placeholder="Ví dụ:&#10;example.com&#10;google.com&#10;facebook.com&#10;youtube.com&#10;..."
+            ></textarea>
+          </div>
+
+          <div class="button-group">
+            <button class="btn-primary" onclick="splitDomains()">
+              ✂️ Chia danh sách
+            </button>
+            <button class="btn-secondary" onclick="clearAll()">
+              🗑️ Xóa tất cả
+            </button>
+            <button class="btn-secondary" onclick="loadSampleData()">
+              📋 Dữ liệu mẫu
+            </button>
+          </div>
+        </div>
+
+        <div id="statsSection" class="stats" style="display: none">
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-number" id="totalDomains">0</div>
+              <div class="stat-label">Tổng số domain</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="totalGroups">0</div>
+              <div class="stat-label">Số nhóm</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="domainsPerGroup">1000</div>
+              <div class="stat-label">Domain/nhóm</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="resultsSection" class="results-section" style="display: none">
+          <div class="results-header">
+            <div class="results-title">📊 Kết quả chia nhóm</div>
+            <div class="domain-count" id="resultCount">0 domains</div>
+          </div>
+          <div id="groupsContainer"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function splitDomains() {
+        const input = document.getElementById("domainInput").value.trim();
+
+        if (!input) {
+          alert("Vui lòng nhập danh sách domain!");
+          return;
+        }
+
+        // Lấy danh sách domain và loại bỏ các dòng trống
+        const domains = input
+          .split("\n")
+          .map((domain) => domain.trim())
+          .filter((domain) => domain.length > 0);
+
+        if (domains.length === 0) {
+          alert("Không tìm thấy domain nào hợp lệ!");
+          return;
+        }
+
+        // Chia thành các nhóm 1000 domain
+        const groups = [];
+        const groupSize = 1000;
+
+        for (let i = 0; i < domains.length; i += groupSize) {
+          groups.push(domains.slice(i, i + groupSize));
+        }
+
+        // Hiển thị thống kê
+        displayStats(domains.length, groups.length);
+
+        // Hiển thị kết quả
+        displayResults(groups);
+      }
+
+      function displayStats(totalDomains, totalGroups) {
+        document.getElementById("totalDomains").textContent =
+          totalDomains.toLocaleString();
+        document.getElementById("totalGroups").textContent = totalGroups;
+        document.getElementById("domainsPerGroup").textContent = "1000";
+        document.getElementById("statsSection").style.display = "block";
+      }
+
+      function displayResults(groups) {
+        const container = document.getElementById("groupsContainer");
+        container.innerHTML = "";
+
+        groups.forEach((group, index) => {
+          const groupDiv = document.createElement("div");
+          groupDiv.className = "group-container";
+
+          groupDiv.innerHTML = `
+                    <div class="group-header">
+                        <div class="group-title">Nhóm ${index + 1}</div>
+                        <div class="group-count">${group.length} domains</div>
+                    </div>
+                    <div class="group-content">
+                        <div class="domain-list" id="group-${index}">${group.join(
+            "\n"
+          )}</div>
+                        <button class="btn-copy" onclick="copyGroup(${index})">
+                            📋 Copy nhóm ${index + 1}
+                        </button>
+                        <div class="copy-status" id="status-${index}"></div>
+                    </div>
+                `;
+
+          container.appendChild(groupDiv);
+        });
+
+        document.getElementById("resultCount").textContent = `${groups
+          .reduce((sum, group) => sum + group.length, 0)
+          .toLocaleString()} domains`;
+        document.getElementById("resultsSection").style.display = "block";
+      }
+
+      async function copyGroup(groupIndex) {
+        const groupContent = document.getElementById(
+          `group-${groupIndex}`
+        ).textContent;
+        const statusDiv = document.getElementById(`status-${groupIndex}`);
+
+        try {
+          await navigator.clipboard.writeText(groupContent);
+          showCopyStatus(statusDiv, "success", "✅ Đã copy thành công!");
+        } catch (err) {
+          // Fallback cho trình duyệt không hỗ trợ clipboard API
+          const textArea = document.createElement("textarea");
+          textArea.value = groupContent;
+          document.body.appendChild(textArea);
+          textArea.select();
+
+          try {
+            document.execCommand("copy");
+            showCopyStatus(statusDiv, "success", "✅ Đã copy thành công!");
+          } catch (fallbackErr) {
+            showCopyStatus(
+              statusDiv,
+              "error",
+              "❌ Không thể copy. Vui lòng chọn và copy thủ công."
+            );
+          }
+
+          document.body.removeChild(textArea);
+        }
+      }
+
+      function showCopyStatus(statusDiv, type, message) {
+        statusDiv.className = `copy-status copy-${type}`;
+        statusDiv.textContent = message;
+        statusDiv.style.display = "block";
+
+        setTimeout(() => {
+          statusDiv.style.display = "none";
+        }, 3000);
+      }
+
+      function clearAll() {
+        document.getElementById("domainInput").value = "";
+        document.getElementById("statsSection").style.display = "none";
+        document.getElementById("resultsSection").style.display = "none";
+        document.getElementById("groupsContainer").innerHTML = "";
+      }
+
+      function loadSampleData() {
+        const sampleDomains = [
+          "google.com",
+          "facebook.com",
+          "youtube.com",
+          "amazon.com",
+          "microsoft.com",
+          "apple.com",
+          "netflix.com",
+          "instagram.com",
+          "twitter.com",
+          "linkedin.com",
+          "github.com",
+          "stackoverflow.com",
+          "reddit.com",
+          "wikipedia.org",
+          "yahoo.com",
+          "bing.com",
+          "ebay.com",
+          "paypal.com",
+          "adobe.com",
+          "spotify.com",
+        ];
+
+        document.getElementById("domainInput").value = sampleDomains.join("\n");
+        // Tự động resize sau khi load dữ liệu
+        autoResizeTextarea(document.getElementById("domainInput"));
+      }
+
+      // Tự động resize textarea
+      function autoResizeTextarea(textarea) {
+        textarea.style.height = "auto";
+        const newHeight = Math.min(Math.max(200, textarea.scrollHeight), 500);
+        textarea.style.height = newHeight + "px";
+      }
+
+      document
+        .getElementById("domainInput")
+        .addEventListener("input", function () {
+          autoResizeTextarea(this);
+        });
+
+      // Resize khi load trang
+      document.addEventListener("DOMContentLoaded", function () {
+        const textarea = document.getElementById("domainInput");
+        autoResizeTextarea(textarea);
+      });
+
+      // Phím tắt
+      document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "Enter") {
+          splitDomains();
+        }
+      });
+    </script>
+  </body>
+</html>
